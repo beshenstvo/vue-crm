@@ -1,12 +1,29 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <component :is="layout">
+      <router-view/>
+  </component>
 </template>
 
+<script>
+import MainLayout from './layouts/MainLayout.vue'
+import AuthLayout from './layouts/AuthLayout.vue'
+
+export default {
+  computed: {
+    layout () {
+      console.log(this.$route.meta)
+      return (this.$route.meta.layout || 'auth') + '-layout'
+    }
+  },
+  components: {
+    MainLayout, AuthLayout
+  }
+}
+</script>
+
 <style lang="scss">
+@import '~materialize-css/dist/css/materialize.min.css';
+@import 'assets/index';
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
