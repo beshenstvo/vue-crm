@@ -1,24 +1,32 @@
 <template>
-    <form class="card auth-card">
+    <form class="card auth-card" @submit.prevent="submit">
         <div class="card-content">
             <span class="card-title">Домашняя бухгалтерия</span>
             <div class="input-field">
             <input
                 id="email"
                 type="text"
-                class="validate"
+                v-model.trim="email"
+                @blur="v$.email.$touch"
+                :class="{validate: !v$.email.$error, invalid: v$.email.$error}"
             >
             <label for="email">Email</label>
-            <small class="helper-text invalid">Email</small>
+            <div class="input-errors" v-if="v$.email.$error">
+              <small class="helper-text invalid">Email field has an error</small>
+            </div>
             </div>
             <div class="input-field">
             <input
                 id="password"
                 type="password"
-                class="validate"
+                v-model="password"
+                @blur="v$.password.$touch"
+                :class="{'validate': !v$.password.$error, invalid: v$.password.$error}"
             >
             <label for="password">Пароль</label>
-            <small class="helper-text invalid">Password</small>
+            <div class="input-errors" v-if="v$.password.$error">
+              <small class="helper-text invalid">Password field has an error</small>
+            </div>
             </div>
         </div>
         <div class="card-action">
@@ -34,8 +42,41 @@
 
             <p class="center">
             Нет аккаунта?
-            <a href="/">Зарегистрироваться</a>
+            <router-link to="/register">Зарегистрироваться</router-link>
             </p>
         </div>
     </form>
 </template>
+
+<script>
+import useVuelidate from '@vuelidate/core'
+import { required, email, minLength } from '@vuelidate/validators'
+
+export default {
+  setup () {
+    return { v$: useVuelidate() }
+  },
+  data () {
+    return {
+      email: '',
+      password: ''
+    }
+  },
+  methods: {
+    submit () {
+      if (this.v$.$invalid) {
+        this.v$.$touch()
+        return alert('Неверно заполнены поля!')
+      } else {
+        this.$router.push('/')
+      }
+    }
+  },
+  validations () {
+    return {
+      email: { required, email },
+      password: { required, minLength: minLength(6) }
+    }
+  }
+}
+</script>

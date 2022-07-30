@@ -1,7 +1,7 @@
 <template>
   <ul class="sidenav app-sidenav" :class="{'open': value}">
        <router-link v-for="link in links" :key="link.path" :to='link.path'>
-          <li :class="{'myactive': link.path===this.$router.currentRoute._value.name}"><a class="wave-effects pointer">{{ link.title }}</a></li>
+          <li :class="{'myactive': link.path===this.$router.currentRoute._value.fullPath}"><a class="wave-effects pointer">{{ link.title }}</a></li>
       </router-link>
   </ul>
 </template>
@@ -12,16 +12,13 @@ export default {
   data: () => ({
     activeEl: 0,
     links: [
-      { title: 'Счет', path: 'home' },
-      { title: 'История', path: 'history' },
-      { title: 'Планирование', path: 'planning' },
-      { title: 'Новая запись', path: 'record' },
-      { title: 'Категории', path: 'categories' }
+      { title: 'Счет', path: '/' },
+      { title: 'История', path: '/history' },
+      { title: 'Планирование', path: '/planning' },
+      { title: 'Новая запись', path: '/record' },
+      { title: 'Категории', path: '/categories' }
     ]
-  }),
-  mounted () {
-    console.log(this.$router.currentRoute._value.name)
-  }
+  })
 }
 </script>
 
