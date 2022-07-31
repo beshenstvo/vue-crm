@@ -51,6 +51,8 @@
 <script>
 import useVuelidate from '@vuelidate/core'
 import { required, email, minLength } from '@vuelidate/validators'
+import { msg } from '../utils/messages'
+// import M from 'materialize-css'
 
 export default {
   setup () {
@@ -62,12 +64,18 @@ export default {
       password: ''
     }
   },
+  mounted () {
+    if ((this.$route.query.message != null) && (msg[this.$route.query.message])) {
+      this.$message(msg[this.$route.query.message])
+    }
+  },
   methods: {
     submit () {
       if (this.v$.$invalid) {
         this.v$.$touch()
         return alert('Неверно заполнены поля!')
       } else {
+        // отправка данных на сервер
         this.$router.push('/')
       }
     }
@@ -80,3 +88,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .mytoast {
+    background-color: aqua !important;
+  }
+</style>
