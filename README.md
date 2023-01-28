@@ -1,5 +1,10 @@
 # vue-crm
 
+Реализовано:
+1. Маршрутизация. 
+2. Уведомления.
+3. CRUD. 
+
 ## Project setup
 ```
 npm install
